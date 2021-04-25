@@ -1,0 +1,9 @@
+docker run node -> this will check local image if not docker will automatically pull from the docker hub.
+docker ps -a -> this command will show all the running processes / containers 
+
+docker build . -> this command will build your image (.) means the path 
+docker build . --rm  --label "Created-BY-Akalanka" -t "nodedocker:latest" -> build docker image
+
+docker run -it node -> run node terminal from containers
+docker run {ID} ->  run docker container by id
+docker run -p 3000:80 {id} -> this will eun on local port
