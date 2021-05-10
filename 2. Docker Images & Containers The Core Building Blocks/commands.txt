@@ -6,4 +6,9 @@ docker build . --rm  --label "Created-BY-Akalanka" -t "nodedocker:latest" -> bui
 
 docker run -it node -> run node terminal from containers
 docker run {ID} ->  run docker container by id
-docker run -p 3000:80 {id} -> this will eun on local port
+docker run -p 3000:80 {id} -> this will eun on local port in attached mode
+docker run -p 3000:80 -d {id} -> this will eun on local port in detached mode
+docker start {name} -> start a created container
+
+docker attach {name} -> attach container
+docker logs {name} -> see past logs*

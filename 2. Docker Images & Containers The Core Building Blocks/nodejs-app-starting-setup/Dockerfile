@@ -36,4 +36,4 @@ CMD ["node","server.js"]
 
 # Optimization 
 # (tip -01) We do not need to install npm if it not change. 
-    # But here we do that all the time to address this quection we can copy package.json first and then run npm i and coppy all code after npm done
+    # But here we do that all the time to address this quection we can copy package.json first and then run npm i and coppy all code after npm done~
