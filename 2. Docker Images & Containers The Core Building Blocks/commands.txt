@@ -14,3 +14,7 @@ docker attach {name} -> attach container
 docker logs {name} -> see past logs*
 
 docker run --rm -it  pytest:latest -> In this interactive mode we can interact with docker. here docker will create a terminal by his self
+
+docker cp <localPath> <image_name>:/<container-path> -> here we can copy some filles to the container
+
+docker cp <image_name>:/<container-path> <localPath> -> here we can copy some filles from the container
