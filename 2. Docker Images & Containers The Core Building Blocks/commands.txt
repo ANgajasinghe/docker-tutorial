@@ -12,3 +12,5 @@ docker start {name} -> start a created container
 
 docker attach {name} -> attach container
 docker logs {name} -> see past logs*
+
+docker run --rm -it  pytest:latest -> In this interactive mode we can interact with docker. here docker will create a terminal by his self
