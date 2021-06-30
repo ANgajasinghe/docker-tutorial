@@ -20,3 +20,5 @@ docker cp <localPath> <image_name>:/<container-path> -> here we can copy some fi
 docker cp <image_name>:/<container-path> <localPath> -> here we can copy some filles from the container
 
 docker run -p 3000:80 -d --rm --name <add_name> {id} -> here we can provide names for the app
+
+docker build -t <name>:<version> -> How to tag a image
