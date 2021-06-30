@@ -18,3 +18,5 @@ docker run --rm -it  pytest:latest -> In this interactive mode we can interact w
 docker cp <localPath> <image_name>:/<container-path> -> here we can copy some filles to the container
 
 docker cp <image_name>:/<container-path> <localPath> -> here we can copy some filles from the container
+
+docker run -p 3000:80 -d --rm --name <add_name> {id} -> here we can provide names for the app
