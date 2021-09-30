@@ -1,0 +1,66 @@
+version: '3.8'
+
+# if you have single value you need to have a - -> - MONGO_INITDB_ROOT_USERNAME=root.
+# if you have multiple values you can write as <key>:<value> -> MONGO_INITDB_ROOT_USERNAME:root.
+# when you create docker compose file you can use env file to pass values. that better to hide your data.
+# when you create docker compose file, Docker automaticaly creates network and attched all your ccontainers to that.
+# but you can use your own network name.
+
+services:
+  mongodb:
+    image: mongo # only you use a image that you created or from docker hub.
+    volumes:
+      - mongodbdata:/data/db
+    container_name: mongodb
+    #environtment:
+     #  MONGO_INITDB_ROOT_USERNAME:root
+     # - MONGO_INITDB_ROOT_USERNAME=sa
+     # - MONGO_INITDB_ROOT_PASSWORD=secret
+    env_file:
+      - ./env/mongo.env
+
+  backend:
+    build:
+      context: ./backend # path to the docker file
+      # dockerfile: Dockerfile
+      #args:
+        # some-args: some-value
+    ports:
+      - "80:80"
+      # - "80" -> when do deploy you can use this.
+    volumes:
+      - logs:/app/logs
+      - ./backend:/app # path to the bind mount
+      - /app/node_modules # anonymus volume 
+    env_file:
+      - ./env/backend.env
+    depends_on: 
+      - mongodb
+    # deploy:
+    #   mode: replicated
+    #   replicas: 2
+    #   restart_policy:
+    #     max_attempts: 5
+    #     condition: on-failure
+
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - 3000:3000
+    volumes:
+      - "./frontend/src:/app/src"
+    stdin_open: true # this is for docker run -i
+    tty: true # this is for docker run -it
+    depends_on: 
+      - backend
+
+ 
+    
+
+# define your name volum here.
+volumes:
+  mongodbdata:
+  logs:
