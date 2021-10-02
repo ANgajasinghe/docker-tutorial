@@ -1,0 +1,59 @@
+version: '3.8'
+
+
+services:
+  mongodb:
+    image: mongo 
+    volumes:
+      - mongodbdata:/data/db
+    container_name: mongodb
+    env_file:
+      - ./env/mongo.env
+
+  backend:
+    build:
+      context: ./backend 
+    ports:
+      - "80"
+    volumes:
+      - logs:/app/logs
+      - ./backend:/app 
+      - /app/node_modules 
+    env_file:
+      - ./env/backend.env
+    depends_on: 
+      - mongodb
+    scale: 4
+
+  proxy:
+    build:
+      context: ./nginx
+    ports:
+      - "80:80"
+    deploy:
+      placement:
+        constraints:
+          - node.role == manager
+    depends_on: 
+      - backend
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - 3000:3000
+    volumes:
+      - "./frontend/src:/app/src"
+    stdin_open: true 
+    tty: true 
+    depends_on: 
+      - proxy
+
+ 
+    
+
+# define your name volum here.
+volumes:
+  mongodbdata:
+  logs:
