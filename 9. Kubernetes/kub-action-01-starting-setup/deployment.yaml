@@ -1,0 +1,45 @@
+# in this file we will tell how to deploy the application
+apiVersion: apps/v1
+kind: Deployment # what kind of object is this? (service, deployment, etc)
+# metadata is the object's name and other information (first-app, etc)
+metadata:
+  name: second-app-deployment
+spec: # configures the deployment process
+  replicas: 5
+  # this is pod
+  selector:
+    # deployments are dynamics, so we need to select the pod
+    # Eg:- when you scale up and down the deployment have to select what should i control what's why this selector is needed 
+    # Under deployment we have two type of selection (matchLabels and matchExpressions)
+    matchLabels:
+      # this is the label that we are going to use to select the pod 
+      # this tells, This deployment only control the pod that has the label app=second-app and tier=backend
+      app: second-app
+      tier: backend
+  template:
+    # Under deployment it always be a pod template
+    metadata:
+      labels:
+        app: second-app
+        tier: backend
+    spec: # configures the pod
+      containers:
+        - name: second-node-js
+          image: angajasinghe/kub-first-app:2
+        # - name: second-node.js
+        #   image: angajasinghe/kub-first-app:2
+        #   ports:
+        #     - containerPort: 80
+        #       protocol: TCP
+        #   env:
+        #     - name: PORT
+        #       value: "80"
+        #     - name: NODE_ENV
+        #       value: "production"
+        #   imagePullPolicy: Always
+        #   imagePullSecrets:
+        #     - name: docker-registry-secret
+        #   volumeMounts:
+        #     - name: second-app-volume
+        #       mountPath: /usr/src/app
+        #       subPath: second-app
