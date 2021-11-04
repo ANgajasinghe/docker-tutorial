@@ -43,6 +43,7 @@ spec:
       containers:
         - name: second-node-js
           image: angajasinghe/kub-first-app:2
+          imagePullPolicy: Always
           livenessProbe: # probe to check if the pod is alive
             httpGet:
               path: /
