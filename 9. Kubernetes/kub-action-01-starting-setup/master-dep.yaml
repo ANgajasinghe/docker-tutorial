@@ -1,3 +1,5 @@
+# match expression is more powerful than match labels
+
 apiVersion: v1
 kind: Service
 metadata:
@@ -20,9 +22,18 @@ metadata:
 spec:
   replicas: 5
   selector:
-    matchLabels:
-      app: second-app
-      tier: backend
+    # matchLabels:
+    #   app: second-app
+    #   tier: backend
+    matchExpressions:
+      - key: app
+        operator: In
+        values:
+          - second-app
+      - key: tier
+        operator: In
+        values:
+          - backend
   template:
     metadata:
       labels:
@@ -32,6 +43,12 @@ spec:
       containers:
         - name: second-node-js
           image: angajasinghe/kub-first-app:2
+          livenessProbe: # probe to check if the pod is alive
+            httpGet:
+              path: /
+              port: 8080
+            initialDelaySeconds: 5
+            periodSeconds: 5
           resources:
             limits:
               cpu: "1"
@@ -39,6 +56,5 @@ spec:
             requests:
               memory: 256Mi
               cpu: "0.2"
-
 
 
