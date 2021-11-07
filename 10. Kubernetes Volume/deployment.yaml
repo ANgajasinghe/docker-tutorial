@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: story-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: story
+  template:
+    metadata:
+      labels:
+        app: story
+    spec:
+      containers:
+        - name: story 
+          image: angajasinghe/10_stories:1
+          volumeMounts:
+            - name: story-volume
+              mountPath: /app/story # path in the container (you have defined in the deployment.yaml)
+          resources:
+            limits:
+              cpu: "250m"
+              memory: "512Mi"
+            requests:
+              cpu: "250m"
+              memory: "512Mi"
+      volumes:
+        - name: story-volume
+          emptyDir: {} # with out any custom configuration, this will crate a volume with default settings in directory
+
+ 
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: story-service
+spec:
+  selector:
+    app: story
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 3000
+  type: LoadBalancer
