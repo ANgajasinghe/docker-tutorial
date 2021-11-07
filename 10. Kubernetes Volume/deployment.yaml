@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: story-deployment
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
       app: story
@@ -27,9 +27,13 @@ spec:
               memory: "512Mi"
       volumes:
         - name: story-volume
-          emptyDir: {} # with out any custom configuration, this will crate a volume with default settings in directory
-
- 
+          # emptyDir: {} 
+          # with out any custom configuration, this will crate a volume with default settings in directory
+          # with this driver we cannot have same data with replications, because this will create for each pods.
+          # this is good for one replica, but not good for many replicas.
+          hostPath:
+            path: /data/story # path in the host and this will share with all replicas
+            type: DirectoryOrCreate 
 ---
 
 apiVersion: v1
