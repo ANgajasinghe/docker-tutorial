@@ -23,7 +23,7 @@ app.post('/signup', async (req, res) => {
   }
 
   try {
-    const hashedPW = await axios.get('http://'+ process.env.AUTH_SERVICE_SERVICE_HOST +'/hashed-password/' + password);
+    const hashedPW = await axios.get('http://'+ process.env.AUTH_ADDRESS +'/hashed-password/' + password);
     // since it's a dummy service, we don't really care for the hashed-pw either
     console.log(hashedPW, email);
     res.status(201).json({ message: 'User created!' });

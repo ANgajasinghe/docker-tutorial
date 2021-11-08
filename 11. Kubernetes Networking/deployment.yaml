@@ -66,7 +66,7 @@ spec:
           image: angajasinghe/11_users:latest
           env: 
             - name: AUTH_ADDRESS
-              value: '10.106.84.0'
+              value: 'auth-service.default'
           resources:
             limits:
               cpu: 100m
