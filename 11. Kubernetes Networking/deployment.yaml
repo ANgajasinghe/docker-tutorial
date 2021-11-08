@@ -1,3 +1,52 @@
+# now this is running as two separate pods
+
+# auth part of the application
+# this should not be reached by the outside world
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: auth-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: auth
+  template:
+    metadata:
+      labels:
+        app: auth
+    spec:
+      containers:
+        - name: auth
+          image: angajasinghe/11_auth:latest
+          resources:
+            limits:
+              cpu: 100m
+              memory: 100Mi
+            requests:
+              cpu: 100m
+              memory: 100Mi
+
+---
+
+# This auth should not be reached by the outside world
+# auth service
+# how to communicate with pod - pod
+apiVersion: v1
+kind: Service
+metadata:
+  name: auth-service
+spec:
+  type: ClusterIP
+  selector:
+    app: auth
+  ports:
+    - port: 80 # incoming req post
+      targetPort: 80 # container port
+
+
+---
+
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -17,16 +66,7 @@ spec:
           image: angajasinghe/11_users:latest
           env: 
             - name: AUTH_ADDRESS
-              value: localhost
-          resources:
-            limits:
-              cpu: 100m
-              memory: 100Mi
-            requests:
-              cpu: 100m
-              memory: 100Mi
-        - name: auth
-          image: angajasinghe/11_auth:latest
+              value: '10.106.84.0'
           resources:
             limits:
               cpu: 100m
