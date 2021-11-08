@@ -1,0 +1,27 @@
+* {
+  box-sizing: border-box;
+}
+
+html {
+  font-family: sans-serif;
+}
+
+body {
+  margin: 0;
+  background-color: #3b3b3b;
+}
+
+button {
+  background-color: #3d003d;
+  border: 1px solid #3d003d;
+  color: white;
+  padding: 0.5rem 1.5rem;
+  font: inherit;
+  cursor: pointer;
+}
+
+button:hover,
+button:active {
+  background-color: #861586;
+  border-color: #861586;
+}
