@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: users-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: users
+  template:
+    metadata:
+      labels:
+        app: users
+    spec:
+      containers:
+        - name: users
+          image: angajasinghe/11_users:latest
+          env: 
+            - name: AUTH_ADDRESS
+              value: localhost
+          resources:
+            limits:
+              cpu: 100m
+              memory: 100Mi
+            requests:
+              cpu: 100m
+              memory: 100Mi
+        - name: auth
+          image: angajasinghe/11_auth:latest
+          resources:
+            limits:
+              cpu: 100m
+              memory: 100Mi
+            requests:
+              cpu: 100m
+              memory: 100Mi
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: users-service
+spec:
+  type: LoadBalancer
+  selector:
+    app: users
+  ports:
+    - port: 8080 # incoming req post
+      targetPort: 8080 # container port
+ 
